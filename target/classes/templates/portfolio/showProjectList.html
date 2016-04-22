@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Projects</title>
+</head>
+<body>
+
+	<div>
+		<ul th:each="portfolio:${portfolioList}" style="margin: 0 auto; text-align: center;">
+			<a th:href="@{/portfolio/}+${portfolio.getId()}"> 
+				<li style="display: inline-block; vertical-align: top;">
+					<img alt="" th:src="@{/portfolio/image/}+${portfolio.getId()}"></img>
+					<span th:text="${portfolio.getTitle()}"></span>
+				</li>
+			</a>
+		</ul>
+	</div>
+	
+</body>
+</html>

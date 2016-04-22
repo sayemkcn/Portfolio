@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Projects</title>
+</head>
+<body>
+
+	<div>
+		<span style="color: green;" th:text="${param.message[0]}" th:unless="${param.message==null}"></span><br></br>
+		<article style="display: inline-block; vertical-align: top;">
+			<img alt="" th:src="@{/portfolio/image/}+${portfolio.getId()}" style="height: 100px;width: 500px;"></img><br></br>
+			<h2><header th:text="${portfolio.getTitle()}"></header><br></br></h2>
+			<h4><span th:text="${portfolio.getDescription()}"></span></h4><br></br><hr></hr>
+			Project Url:<br></br>
+			<span th:text="${portfolio.getUrl()}"></span><br></br><br></br>
+			Used Technologies:<br></br>
+			<ul th:each="technology:${portfolio.getUsedTechnologies()}">
+				<li th:text="${technology}"></li>
+			</ul><br></br>
+			<a th:href="@{/portfolio/edit/}+${portfolio.getId()}">Update</a>
+			
+		</article>
+	</div>
+	
+</body>
+</html>
