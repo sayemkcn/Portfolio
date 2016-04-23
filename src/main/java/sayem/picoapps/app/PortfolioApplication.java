@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan(basePackages={"sayem.picoapps.controllers","sayem.picoapps.services"})
-@EntityScan(basePackages="sayem.picoapps.domains")
+@EntityScan(basePackages={"sayem.picoapps.domains","sayem.picoapps.domains.embedded"})
 @EnableJpaRepositories(basePackages="sayem.picoapps.repositories")
 @EnableTransactionManagement
 public class PortfolioApplication {

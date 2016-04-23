@@ -10,7 +10,7 @@
 		<ul th:each="portfolio:${portfolioList}" style="margin: 0 auto; text-align: center;">
 			<a th:href="@{/portfolio/}+${portfolio.getId()}"> 
 				<li style="display: inline-block; vertical-align: top;">
-					<img alt="" th:src="@{/portfolio/image/}+${portfolio.getId()}"></img>
+					<img alt="" th:src="@{/portfolio/image/}+${portfolio.getId()}" style="height: 300px;width: 500px;"></img>
 					<span th:text="${portfolio.getTitle()}"></span>
 				</li>
 			</a>
