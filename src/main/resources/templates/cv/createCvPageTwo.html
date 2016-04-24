@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<body>
+	
+	<h4>Education</h4><hr></hr>
+		
+		<table th:if="${session.tempCv != null}">
+			<tr th:if="${!session.tempCv.getEducationInfoList().isEmpty()}">
+				<th>Degree</th>
+				<th>Group/Major Subject</th>
+				<th>University/College/Institution Name</th>
+				<th>Passing Year</th>
+				<th>Result</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="educationInfo:${session.tempCv.getEducationInfoList()}">
+				<td th:text="${educationInfo.getDegree()}"></td>
+				<td th:text="${educationInfo.getMajorSubject()}"></td>
+				<td th:text="${educationInfo.getInstitute()}"></td>
+				<td th:text="${educationInfo.getPassingYear()}"></td>
+				<td th:text="${educationInfo.getResult()}"></td>
+				<td><a th:href="@{/cv/create/p2/remove/}+${educationInfo.hashCode()}">Remove</a></td>
+			</tr>
+		</table><br></br><br></br>
+	
+		<form th:action="@{/cv/create/p2}" method="post">
+			<input type="text" name="degree" placeholder="Degree" required="required"></input> <br></br>
+			<input type="text" name="majorSubject" placeholder="Group/Major subject" required="required"></input><br></br>
+			<input type="text" name="institute" placeholder="University/College/Institute name" required="required"></input><br></br>
+			<input type="number" name="passingYear" placeholder="Passing year" required="required"></input><br></br>
+			<input type="text" name="result" placeholder="Result" required="required"></input><br></br>
+			<input type="submit" name="submitButton" value="Save and Next"></input>
+			<input type="submit" name="submitButton"  value="Add New"></input>
+		</form>
+		
+		
+</body>
+</html>

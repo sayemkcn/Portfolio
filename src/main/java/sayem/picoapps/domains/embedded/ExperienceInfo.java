@@ -3,12 +3,20 @@ package sayem.picoapps.domains.embedded;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
 public class ExperienceInfo {
 	private String companyName;
 	private String companyWebsite;
+	@DateTimeFormat(pattern="yyyy-dd-MM")
+	@Temporal(TemporalType.DATE)
 	private Date experienceFromDate;
+	@DateTimeFormat(pattern="yyyy-dd-MM")
+	@Temporal(TemporalType.DATE)
 	private Date experienceToDate;
 	private boolean currentJob;
 	private String companyType;

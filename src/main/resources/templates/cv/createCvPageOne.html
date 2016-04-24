@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<body>
+	<form th:action="@{/cv/create/p1}" method="post" style="margin: 0 auto; text-align: center;">
+		<h4>Personal Information</h4><hr></hr>
+		Profile Picture:
+		<input type="file" name="personalInfo.image"></input><br></br>
+		<input type="text" name="personalInfo.fullName" placeholder="Your full name"></input><br></br>
+		<input type="tel" name="personalInfo.phoneNumber" placeholder="Phone number"></input><br></br>
+		<textarea  name="personalInfo.presentAddress" placeholder="Your present address"></textarea><br></br>
+		<textarea name="personalInfo.parmanentAddress" placeholder="Your parmanent address"></textarea><br></br>
+		<input type="text" name="personalInfo.resumeTitle" placeholder="Resume title"></input><br></br>
+		<input type="text" name="personalInfo.fathersName" placeholder="Father's name"></input><br></br>
+		<input type="text" name="personalInfo.mothersName" placeholder="Mother's Name"></input><br></br>
+		Birth Date:<input type="date" name="personalInfo.birthDate" placeholder="Birth Date"></input><br></br>
+		Marital Status:
+		<select name="personalInfo.maritalStatus"><br></br>
+			<option value="Married">Married</option>
+			<option value="Unmarried">Unmarried</option>
+			<option value="Divorced">Divorced</option>
+		</select><br></br>
+		Religion:
+		<select name="personalInfo.religion"><br></br>
+			<option value="Islam">Islam</option>
+			<option value="Hindu">Hindu</option>
+			<option value="Budist">Budist</option>
+			<option value="Christian">Christian</option>
+		</select><br></br>
+		<input type="text" name="personalInfo.nationality" placeholder="Nationality"></input><br></br>
+		<input type="text" name="personalInfo.nationalIdNumber" placeholder="Your NID number"></input><br></br>
+		
+		<h4>Career Information</h4><hr></hr>
+		<textarea type="text" name="careerInfo.careerObjective" placeholder="Career objective"></textarea><br></br>
+		<textarea type="text" name="careerInfo.careerSummary" placeholder="Career summary"></textarea><br></br>
+		<input type="number" name="careerInfo.expectedSalary" placeholder="Expected salary"></input><br></br>
+		<br></br>
+		<input type="submit" value="Save and Next Step"></input><br></br><br></br>
+	</form>
+	
+	
+</body>
+</html>

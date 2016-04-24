@@ -3,20 +3,27 @@ package sayem.picoapps.domains.embedded;
 import java.util.Arrays;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
 public class PersonalInfo {
 	private String fullName;
+	@Column(length = 3000000)
 	private byte[] profilePhoto;
 	private String phoneNumber;
 	private String presentAddress;
 	private String parmanentAddress;
 	private String resumeTitle;
-	private String[] keywords;
 	private String fathersName;
 	private String mothersName;
-	private Date bithDate;
+	@DateTimeFormat(pattern = "yyyy-dd-MM")
+	@Temporal(TemporalType.DATE)
+	private Date birthDate;
 	private String maritalStatus;
 	private String religion;
 	private String nationality;
@@ -70,14 +77,6 @@ public class PersonalInfo {
 		this.resumeTitle = resumeTitle;
 	}
 
-	public String[] getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(String[] keywords) {
-		this.keywords = keywords;
-	}
-
 	public String getFathersName() {
 		return fathersName;
 	}
@@ -94,12 +93,12 @@ public class PersonalInfo {
 		this.mothersName = mothersName;
 	}
 
-	public Date getBithDate() {
-		return bithDate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBithDate(Date bithDate) {
-		this.bithDate = bithDate;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getMaritalStatus() {
@@ -136,11 +135,11 @@ public class PersonalInfo {
 
 	@Override
 	public String toString() {
-		return "PersonalInfo [fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", presentAddress="
-				+ presentAddress + ", parmanentAddress=" + parmanentAddress + ", resumeTitle=" + resumeTitle
-				+ ", keywords=" + Arrays.toString(keywords) + ", fathersName=" + fathersName + ", mothersName="
-				+ mothersName + ", bithDate=" + bithDate + ", maritalStatus=" + maritalStatus + ", religion=" + religion
-				+ ", nationality=" + nationality + ", nationalIdNumber=" + nationalIdNumber + "]";
+		return "PersonalInfo [fullName=" + fullName + ", profilePhoto=" + Arrays.toString(profilePhoto)
+				+ ", phoneNumber=" + phoneNumber + ", presentAddress=" + presentAddress + ", parmanentAddress="
+				+ parmanentAddress + ", resumeTitle=" + resumeTitle + ", fathersName=" + fathersName + ", mothersName="
+				+ mothersName + ", birthDate=" + birthDate + ", maritalStatus=" + maritalStatus + ", religion="
+				+ religion + ", nationality=" + nationality + ", nationalIdNumber=" + nationalIdNumber + "]";
 	}
 
 }

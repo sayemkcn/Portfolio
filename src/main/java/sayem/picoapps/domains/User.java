@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,9 +25,9 @@ public class User extends BaseEntity {
 	private String username;
 	@NotNull
 	private String role;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Cv> cvList = new ArrayList<>();
+	
+	@OneToOne
+	private Cv cv;
 
 	public String getName() {
 		return name;
@@ -60,12 +61,20 @@ public class User extends BaseEntity {
 		this.role = role;
 	}
 
-	public List<Cv> getCvList() {
-		return cvList;
+	public Cv getCv() {
+		return cv;
 	}
 
-	public void setCvList(List<Cv> cvList) {
-		this.cvList = cvList;
+	public void setCv(Cv cv) {
+		this.cv = cv;
 	}
+
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", email=" + email + ", username=" + username + ", role=" + role + ", cv=" + cv
+				+ "]";
+	}
+
+	
 
 }

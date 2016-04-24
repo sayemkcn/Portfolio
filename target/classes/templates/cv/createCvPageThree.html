@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<body>
+	
+	<h4>Professional Experience</h4><hr></hr>
+		
+		<table th:if="${session.tempCv != null}">
+			<tr th:if="${!session.tempCv.getExperienceInfoList().isEmpty()}">
+				<th>Company Name</th>
+				<th>Company Website</th>
+				<th>Started Working</th>
+				<th>Till</th>
+				<th>Current Job?</th>
+				<th>Company Type</th>
+				<th>Designation</th>
+				<th>Department</th>
+				<th>Job responsibility</th>
+				<th>Employment type</th>
+				<th>Role</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="experienceInfo:${session.tempCv.getExperienceInfoList()}">
+				<td th:text="${experienceInfo.getCompanyName()}"></td>
+				<td th:text="${experienceInfo.getCompanyWebsite()}"></td>
+				<td th:text="${experienceInfo.getExperienceFromDate()}"></td>
+				<td th:text="${experienceInfo.getExperienceToDate()}"></td>
+				<td th:text="${experienceInfo.isCurrentJob()}"></td>
+				<td th:text="${experienceInfo.getCompanyType()}"></td>
+				<td th:text="${experienceInfo.getDesignation()}"></td>
+				<td th:text="${experienceInfo.getDepartment()}"></td>
+				<td th:text="${experienceInfo.getJobResponsibility()}"></td>
+				<td th:text="${experienceInfo.getEmploymentType()}"></td>
+				<td th:text="${experienceInfo.getRole()}"></td>
+				<td><a th:href="@{/cv/create/p3/remove/}+${experienceInfo.hashCode()}">Remove</a></td>
+			</tr>
+		</table><br></br><br></br>
+	
+		<form th:action="@{/cv/create/p3}" method="post">
+			<input type="text" name="companyName" placeholder="Company Name"></input> <br></br>
+			<input type="text" name="companyWebsite" placeholder="Company Website"></input><br></br>
+			Started Working: 
+			<input type="date" name="experienceFromDate"></input><br></br>
+			Stopped Working:
+			<input type="date" name="experienceToDate" ></input>
+			<input type="checkbox" name="currentJob">Current Job</input><br></br>
+			Company Type:
+			<select name="companyType">
+				<option value="IT/Telecommunication">IT/Telecommunication</option>
+				<option value="Bank">Bank</option>
+				<option value="E-Commerce">E-Commerce</option>
+			</select><br></br>
+			<input type="text" name="designation" placeholder="Designation"></input><br></br>
+			<input type="text" name="department" placeholder="Department"></input><br></br>
+			<textarea  name="jobResponsibility" placeholder="Your job responsibility there"></textarea><br></br>
+			<input type="text" name="employmentType" placeholder="Employment type"></input><br></br>
+			<input type="text" name="role" placeholder="Role"></input><br></br>
+			
+			<input type="submit" name="submitButton" value="Save and Next"></input>
+			<input type="submit" name="submitButton"  value="Add New"></input>
+		</form>
+		
+</body>
+</html>

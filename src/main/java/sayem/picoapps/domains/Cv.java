@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 import sayem.picoapps.domains.embedded.CareerInfo;
 import sayem.picoapps.domains.embedded.EducationInfo;
@@ -31,6 +32,8 @@ public class Cv extends BaseEntity {
 	private List<TrainingInfo> trainingInfoList = new ArrayList<>();
 	@ElementCollection
 	private List<References> referenceList = new ArrayList<>();
+	@OneToOne
+	private User user;
 
 	public PersonalInfo getPersonalInfo() {
 		return personalInfo;
@@ -93,6 +96,14 @@ public class Cv extends BaseEntity {
 		return "Cv [personalInfo=" + personalInfo + ", careerInfo=" + careerInfo + ", educationInfoList="
 				+ educationInfoList + ", experienceInfoList=" + experienceInfoList + ", projectsList=" + projectsList
 				+ ", trainingInfoList=" + trainingInfoList + ", referenceList=" + referenceList + "]";
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
