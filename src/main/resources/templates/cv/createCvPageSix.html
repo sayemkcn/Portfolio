@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #AFDCEC;
+}
+
+th {
+	background-color: #AFDCEC;
+	color: white;
+	align
+	="center"
+}
+</style>
+<body>
+	
+	<h4>References</h4><hr></hr>
+		<span th:text="${param.message[0]}" th:unless="${param.message==null}"></span>
+		
+		<table th:if="${session.tempCv != null}" style="border: 1px;color: gray;text-align: center;" border="1">
+			<tr th:if="${!session.tempCv.getReferenceList().isEmpty()}">
+				<th>Reference Name</th>
+				<th>Description</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="reference:${session.tempCv.getReferenceList()}">
+				<td th:text="${reference.getReferenceName()}"></td>
+				<td th:text="${reference.getReferenceDescription()}"></td>
+				<td><a th:href="@{/cv/create/p6/remove/}+${reference.hashCode()}">Remove</a></td>
+			</tr>
+		</table><br></br><br></br>
+	
+		<form th:action="@{/cv/create/p6}" method="post">
+			<input type="text" name="referenceName" placeholder="Reference name"></input> <br></br>
+			<input type="text" name="referenceDescription" placeholder="Description"></input><br></br>
+			
+			<input type="submit" name="submitButton" value="Save and Next"></input>
+			<input type="submit" name="submitButton"  value="Add New"></input>
+		</form>
+		
+</body>
+</html>

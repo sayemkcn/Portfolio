@@ -6,9 +6,9 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,16 +21,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sayem.picoapps.domains.Cv;
 import sayem.picoapps.domains.embedded.EducationInfo;
 import sayem.picoapps.domains.embedded.ExperienceInfo;
+import sayem.picoapps.domains.embedded.Projects;
+import sayem.picoapps.domains.embedded.References;
+import sayem.picoapps.domains.embedded.TrainingInfo;
+import sayem.picoapps.repositories.CvRepository;
 
 @Controller
 @RequestMapping(value = "/cv")
 public class CvController {
+	@Autowired
+	private CvRepository cvRepository;
 
-	// @InitBinder
-	// public void initBinder(WebDataBinder binder){
-	// binder.registerCustomEditor( Date.class,
-	// new CustomDateEditor(new SimpleDateFormat("yyyy-dd-MM"), true, 10));
-	// }
+	 @InitBinder
+	 public void initBinder(WebDataBinder binder){
+	 binder.registerCustomEditor( Date.class,
+	 new CustomDateEditor(new SimpleDateFormat("yyyy-dd-MM"), true, 10));
+	 }
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String createCvP1Page() {
@@ -153,4 +159,176 @@ public class CvController {
 		httpSession.setAttribute("tempCv", cv);
 		return "redirect:/cv/create/p3";
 	}
+	
+	// END PAGE 3
+	
+	// PAGE 4
+	
+	@RequestMapping(value = "/create/p4", method = RequestMethod.GET)
+	public String createCvP4Page() {
+		return "cv/createCvPageFour";
+	}
+	
+	@RequestMapping(value = "/create/p4", method = RequestMethod.POST)
+	public String createCvP4(@ModelAttribute Projects project, BindingResult bindingResult,
+			@RequestParam("submitButton") String submitButton, HttpSession httpSession) {
+		Cv cv = (Cv) httpSession.getAttribute("tempCv");
+		// check if add new button clicked
+		if (submitButton.contentEquals("Add New")) {
+			if (cv != null) { // if session is set then proceed to add page two
+								// data
+				cv.getProjectsList().add(project);
+				httpSession.setAttribute("tempCv", cv);
+				return "cv/createCvPageFour";
+			} else { // if session isn't set already then redirect to previous
+						// page
+				return "redirect:/cv/create";
+			}
+		} else if (submitButton.contentEquals("Save and Next")) { // check if
+																	// next
+																	// button
+																	// clicked
+			if (cv != null) { // if session is set then proceed to add page two
+								// data
+				cv.getProjectsList().add(project);
+				httpSession.setAttribute("tempCv", cv);
+			} else {
+				return "redirect:/cv/create";
+			}
+		}
+
+		return "redirect:/cv/create/p5";
+	}
+	@RequestMapping(value = "/create/p4/remove/{hashCode}", method = RequestMethod.GET)
+	public String removeProjectObjectFromSession(@PathVariable("hashCode") int hashCode, HttpSession httpSession) {
+		Cv cv = (Cv) httpSession.getAttribute("tempCv");
+		try {
+			for (Projects project : cv.getProjectsList()){
+				if (project.hashCode() == hashCode) {
+					cv.getProjectsList().remove(project);
+				}
+			}
+		} catch (ConcurrentModificationException e) {
+				// ignore this bullshit!
+		}
+		httpSession.setAttribute("tempCv", cv);
+		return "redirect:/cv/create/p4";
+	}
+	// END PAGE 4
+	
+	// PAGE 5
+	
+		@RequestMapping(value = "/create/p5", method = RequestMethod.GET)
+		public String createCvP5Page() {
+			return "cv/createCvPageFive";
+		}
+		
+		@RequestMapping(value = "/create/p5", method = RequestMethod.POST)
+		public String createCvP5(@ModelAttribute TrainingInfo training, BindingResult bindingResult,
+				@RequestParam("submitButton") String submitButton, HttpSession httpSession) {
+			Cv cv = (Cv) httpSession.getAttribute("tempCv");
+			// check if add new button clicked
+			if (submitButton.contentEquals("Add New")) {
+				if (cv != null) { // if session is set then proceed to add page two
+									// data
+					cv.getTrainingInfoList().add(training);
+					httpSession.setAttribute("tempCv", cv);
+					return "cv/createCvPageFive";
+				} else { // if session isn't set already then redirect to previous
+							// page
+					return "redirect:/cv/create";
+				}
+			} else if (submitButton.contentEquals("Save and Next")) { // check if
+																		// next
+																		// button
+																		// clicked
+				if (cv != null) { // if session is set then proceed to add page two
+									// data
+					cv.getTrainingInfoList().add(training);
+					httpSession.setAttribute("tempCv", cv);
+				} else {
+					return "redirect:/cv/create";
+				}
+			}
+
+			return "redirect:/cv/create/p6";
+		}
+		@RequestMapping(value = "/create/p5/remove/{hashCode}", method = RequestMethod.GET)
+		public String removeTrainingObjectFromSession(@PathVariable("hashCode") int hashCode, HttpSession httpSession) {
+			Cv cv = (Cv) httpSession.getAttribute("tempCv");
+			try {
+				for (TrainingInfo training: cv.getTrainingInfoList()){
+					if (training.hashCode() == hashCode) {
+						cv.getTrainingInfoList().remove(training);
+					}
+				}
+			} catch (ConcurrentModificationException e) {
+					// ignore this bullshit!
+			}
+			httpSession.setAttribute("tempCv", cv);
+			return "redirect:/cv/create/p5";
+		}
+		// END PAGE 5
+		
+		// PAGE 6
+		
+			@RequestMapping(value = "/create/p6", method = RequestMethod.GET)
+			public String createCvP6Page() {
+				return "cv/createCvPageSix";
+			}
+			
+			@RequestMapping(value = "/create/p6", method = RequestMethod.POST)
+			public String createCvP6(@ModelAttribute References reference, BindingResult bindingResult,
+					@RequestParam("submitButton") String submitButton, HttpSession httpSession) {
+				Cv cv = (Cv) httpSession.getAttribute("tempCv");
+				// check if add new button clicked
+				if (submitButton.contentEquals("Add New")) {
+					if (cv != null) { // if session is set then proceed to add page two
+										// data
+						cv.getReferenceList().add(reference);
+						httpSession.setAttribute("tempCv", cv);
+						return "cv/createCvPageSix";
+					} else { // if session isn't set already then redirect to previous
+								// page
+						return "redirect:/cv/create";
+					}
+				} else if (submitButton.contentEquals("Save and Next")) { // check if
+																			// next
+																			// button
+																			// clicked
+					if (cv != null) { // if session is set then proceed to add page two
+										// data
+						cv.getReferenceList().add(reference);
+					} else {
+						return "redirect:/cv/create";
+					}
+				}
+				
+				// save this complete cv object to database
+				try {
+					cvRepository.saveAndFlush(cv);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}finally {
+					httpSession.removeAttribute("tempCv");
+				}
+
+				return "redirect:/cv/create/p6?message=Successfully%20saved!";
+			}
+			@RequestMapping(value = "/create/p6/remove/{hashCode}", method = RequestMethod.GET)
+			public String removeReferenceObjectFromSession(@PathVariable("hashCode") int hashCode, HttpSession httpSession) {
+				Cv cv = (Cv) httpSession.getAttribute("tempCv");
+				try {
+					for (References reference: cv.getReferenceList()){
+						if (reference.hashCode() == hashCode) {
+							cv.getReferenceList().remove(reference);
+						}
+					}
+				} catch (ConcurrentModificationException e) {
+						// ignore this bullshit!
+				}
+				httpSession.setAttribute("tempCv", cv);
+				return "redirect:/cv/create/p6";
+			}
+			// END PAGE 6	
 }

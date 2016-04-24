@@ -3,13 +3,21 @@ package sayem.picoapps.domains.embedded;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
 public class TrainingInfo {
 
 	private String trainingTitle;
 	private String institute;
+	@DateTimeFormat(pattern = "yyyy-dd-MM")
+	@Temporal(TemporalType.DATE)
 	private Date trainingFromDate;
+	@DateTimeFormat(pattern = "yyyy-dd-MM")
+	@Temporal(TemporalType.DATE)
 	private Date trainingToDate;
 	private int trainingHours;
 	private String trainingDescription;

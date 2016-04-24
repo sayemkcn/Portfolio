@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #AFDCEC;
+}
+
+th {
+	background-color: #AFDCEC;
+	color: white;
+	align
+	="center"
+}
+</style>
+<body>
+	
+	<h4>Training Information</h4><hr></hr>
+		
+		<table th:if="${session.tempCv != null}" style="border: 1px;color: gray;text-align: center;" border="1">
+			<tr th:if="${!session.tempCv.getTrainingInfoList().isEmpty()}">
+				<th>Training Name</th>
+				<th>Institute</th>
+				<th>Training start date</th>
+				<th>Training end date</th>
+				<th>Training hours</th>
+				<th>Description</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="training:${session.tempCv.getTrainingInfoList()}">
+				<td th:text="${training.getTrainingTitle()}"></td>
+				<td th:text="${training.getInstitute()}"></td>
+				<td th:text="${training.getTrainingFromDate()}"></td>
+				<td th:text="${training.getTrainingToDate()}"></td>
+				<td th:text="${training.getTrainingHours()}"></td>
+				<td th:text="${training.getTrainingDescription()}"></td>
+				<td><a th:href="@{/cv/create/p5/remove/}+${training.hashCode()}">Remove</a></td>
+			</tr>
+		</table><br></br><br></br>
+	
+		<form th:action="@{/cv/create/p5}" method="post">
+			<input type="text" name="trainingTitle" placeholder="Training name"></input> <br></br>
+			<input type="text" name="institute" placeholder="Institute"></input><br></br>
+			Training From:
+			<input type="date" name="trainingFromDate"></input><br></br>
+			Training ending date:
+			<input type="date" name="trainingToDate"></input><br></br>
+			Training hours:
+			<input type="number" name="trainingHours" ></input><br></br>
+			<textarea name="trainingDescription" placeholder="Training Description"></textarea><br></br>
+			
+			<input type="submit" name="submitButton" value="Save and Next"></input>
+			<input type="submit" name="submitButton"  value="Add New"></input>
+		</form>
+		
+</body>
+</html>

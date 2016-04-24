@@ -3,12 +3,34 @@
 <head>
 <meta charset="UTF-8"></meta>
 <title>CV</title>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #AFDCEC;
+}
+
+th {
+	background-color: #AFDCEC;
+	color: white;
+	align
+	="center"
+}
+</style>
 </head>
 <body>
 	
 	<h4>Professional Experience</h4><hr></hr>
 		
-		<table th:if="${session.tempCv != null}">
+		<table th:if="${session.tempCv != null}" border="1">
 			<tr th:if="${!session.tempCv.getExperienceInfoList().isEmpty()}">
 				<th>Company Name</th>
 				<th>Company Website</th>

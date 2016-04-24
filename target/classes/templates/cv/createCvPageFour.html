@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<style>
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #AFDCEC;
+}
+
+th {
+	background-color: #AFDCEC;
+	color: white;
+	align
+	="center"
+}
+</style>
+<body>
+	
+	<h4>Projects</h4><hr></hr>
+		
+		<table th:if="${session.tempCv != null}" style="border: 1px;color: gray;text-align: center;" border="1">
+			<tr th:if="${!session.tempCv.getProjectsList().isEmpty()}">
+				<th>Project Name</th>
+				<th>Project Description</th>
+				<th>Project Url</th>
+				<th>Used Technologies</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="project:${session.tempCv.getProjectsList()}">
+				<td th:text="${project.getTitle()}"></td>
+				<td th:text="${project.getDescription()}"></td>
+				<td th:text="${project.getUrl()}"></td>
+				<td th:text="${project.getUsedTechnologiesAsString()}"></td>
+				<td><a th:href="@{/cv/create/p4/remove/}+${project.hashCode()}">Remove</a></td>
+			</tr>
+		</table><br></br><br></br>
+	
+		<form th:action="@{/cv/create/p4}" method="post">
+			<input type="text" name="title" placeholder="Project name"></input> <br></br>
+			<textarea type="text" name="description" placeholder="Project Description"></textarea><br></br>
+			<input type="text" name="url" placeholder="Project Url"></input><br></br>
+			<input type="text" name="usedTechnologies" placeholder="Used technologies(Separated with comma)"></input><br></br>
+			
+			<input type="submit" name="submitButton" value="Save and Next"></input>
+			<input type="submit" name="submitButton"  value="Add New"></input>
+		</form>
+		
+</body>
+</html>
