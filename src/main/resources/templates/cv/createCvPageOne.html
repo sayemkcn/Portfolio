@@ -5,10 +5,10 @@
 <title>CV</title>
 </head>
 <body>
-	<form th:action="@{/cv/create/p1}" method="post" style="margin: 0 auto; text-align: center;">
+	<form th:action="@{/cv/create/p1}" enctype="multipart/form-data" method="post" style="margin: 0 auto; text-align: center;">
 		<h4>Personal Information</h4><hr></hr>
 		Profile Picture:
-		<input type="file" name="personalInfo.image"></input><br></br>
+		<input type="file" name="personalInfo.profilePhoto"></input><br></br>
 		<input type="text" name="personalInfo.fullName" placeholder="Your full name"></input><br></br>
 		<input type="tel" name="personalInfo.phoneNumber" placeholder="Phone number"></input><br></br>
 		<textarea  name="personalInfo.presentAddress" placeholder="Your present address"></textarea><br></br>

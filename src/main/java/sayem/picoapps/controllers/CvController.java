@@ -1,5 +1,7 @@
 package sayem.picoapps.controllers;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import sayem.picoapps.domains.Cv;
 import sayem.picoapps.domains.embedded.EducationInfo;
@@ -25,13 +29,16 @@ import sayem.picoapps.domains.embedded.Projects;
 import sayem.picoapps.domains.embedded.References;
 import sayem.picoapps.domains.embedded.TrainingInfo;
 import sayem.picoapps.repositories.CvRepository;
+import sayem.picoapps.services.CvService;
 
 @Controller
 @RequestMapping(value = "/cv")
 public class CvController {
 	@Autowired
 	private CvRepository cvRepository;
-
+	@Autowired
+	private CvService cvService;
+	
 	 @InitBinder
 	 public void initBinder(WebDataBinder binder){
 	 binder.registerCustomEditor( Date.class,
@@ -44,9 +51,12 @@ public class CvController {
 	}
 
 	@RequestMapping(value = "/create/p1", method = RequestMethod.POST)
-	public String createCvP1(@ModelAttribute Cv cv, BindingResult bindingResult, HttpSession httpSession) {
+	public String createCvP1(@ModelAttribute Cv cv, BindingResult bindingResult,@RequestParam("personalInfo.profilePhoto") MultipartFile multipartFile, HttpSession httpSession) throws IOException {
 		if (bindingResult.hasErrors()) {
 			System.out.println("BINDING RESULT_P1: \n" + bindingResult.toString());
+		}
+		if (cvService.isImageValid(multipartFile)) {
+			cv.getPersonalInfo().setProfilePhoto(multipartFile.getBytes());
 		}
 		httpSession.setAttribute("tempCv", cv);
 		System.out.println(cv.toString());
