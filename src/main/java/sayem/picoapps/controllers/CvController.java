@@ -1,15 +1,17 @@
 package sayem.picoapps.controllers;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ConcurrentModificationException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
 
 import sayem.picoapps.domains.Cv;
 import sayem.picoapps.domains.embedded.EducationInfo;
@@ -38,11 +41,30 @@ public class CvController {
 	private CvRepository cvRepository;
 	@Autowired
 	private CvService cvService;
+	@Autowired
+	private ApplicationContext appContext;
 	
 	 @InitBinder
 	 public void initBinder(WebDataBinder binder){
 	 binder.registerCustomEditor( Date.class,
 	 new CustomDateEditor(new SimpleDateFormat("yyyy-dd-MM"), true, 10));
+	 }
+	 
+	 
+	// print jasper report of the cv
+	 @RequestMapping(value = "/report/{id}", method = RequestMethod.GET, produces = "application/pdf")
+	 public ModelAndView getPdf(@PathVariable("id") Long id) {
+	     final Map<String, Object> cvList = cvService.getCv(id);
+
+	     final JasperReportsPdfView view = new JasperReportsPdfView();
+	     view.setReportDataKey("cv");
+	     view.setUrl("classpath:/report/cv.jrxml");
+	     view.setApplicationContext(appContext);
+
+//	     final Map<String, Object> params = new HashMap<>();
+//	     params.put("users", cvList);
+
+	     return new ModelAndView(view, cvList);
 	 }
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
