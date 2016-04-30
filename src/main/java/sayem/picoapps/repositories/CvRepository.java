@@ -7,5 +7,5 @@ import sayem.picoapps.domains.Cv;
 
 @Repository
 public interface CvRepository extends JpaRepository<Cv, Long> {
-	
+	public Cv findCvByUserId(Long id);
 }

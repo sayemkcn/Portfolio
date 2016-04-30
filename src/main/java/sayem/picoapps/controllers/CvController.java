@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,11 +22,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
 
 import sayem.picoapps.domains.Cv;
+import sayem.picoapps.domains.User;
 import sayem.picoapps.domains.embedded.EducationInfo;
 import sayem.picoapps.domains.embedded.ExperienceInfo;
 import sayem.picoapps.domains.embedded.Projects;
@@ -51,21 +54,33 @@ public class CvController {
 	 }
 	 
 	 
-	// print jasper report of the cv
-	 @RequestMapping(value = "/report/{id}", method = RequestMethod.GET, produces = "application/pdf")
-	 public ModelAndView getPdf(@PathVariable("id") Long id) {
-	     final Map<String, Object> cvList = cvService.getCv(id);
-
-	     final JasperReportsPdfView view = new JasperReportsPdfView();
-	     view.setReportDataKey("cv");
-	     view.setUrl("classpath:/report/cv.jrxml");
-	     view.setApplicationContext(appContext);
-
-//	     final Map<String, Object> params = new HashMap<>();
-//	     params.put("users", cvList);
-
-	     return new ModelAndView(view, cvList);
+	 @RequestMapping(value="/{userId}",method=RequestMethod.GET)
+	 public String viewCv(@PathVariable("userId") Long userId,Model model){
+		 model.addAttribute("cv", cvRepository.findCvByUserId(userId));
+		 return "cv/view";
 	 }
+	 
+	 @RequestMapping(value="/img/{userId}",method=RequestMethod.GET)
+	 @ResponseBody
+	 public byte[] image(@PathVariable("userId") Long userId){
+		 return cvRepository.findCvByUserId(userId).getPersonalInfo().getProfilePhoto();
+	 }
+	 
+//	// print jasper report of the cv
+//	 @RequestMapping(value = "/report/{id}", method = RequestMethod.GET, produces = "application/pdf")
+//	 public ModelAndView getPdf(@PathVariable("id") Long id) {
+//	     final Map<String, Object> cvList = cvService.getCv(id);
+//
+//	     final JasperReportsPdfView view = new JasperReportsPdfView();
+//	     view.setReportDataKey("cv");
+//	     view.setUrl("classpath:/report/cv.jrxml");
+//	     view.setApplicationContext(appContext);
+//
+////	     final Map<String, Object> params = new HashMap<>();
+////	     params.put("users", cvList);
+//
+//	     return new ModelAndView(view, cvList);
+//	 }
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String createCvP1Page() {
@@ -338,6 +353,7 @@ public class CvController {
 				
 				// save this complete cv object to database
 				try {
+					cv.setUser((User) httpSession.getAttribute("user"));
 					cvRepository.saveAndFlush(cv);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

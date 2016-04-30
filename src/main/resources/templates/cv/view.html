@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>CV</title>
+</head>
+<body>
+	<div id="container">
+	
+	
+		<div id="personalInfo">
+			<div>
+				<span th:text="${cv.getPersonalInfo().getFullName()}"></span><br></br>
+				<span th:text="${cv.getPersonalInfo().getPresentAddress()}"></span><br></br>
+				<span th:text="${cv.getPersonalInfo().getPhoneNumber()}"></span><br></br>
+			</div>
+			<div>
+				<!-- Image Link to be changed -->
+				<img alt="" th:src="@{/cv/img/}+${cv.getUser()?.getId()}"></img>
+			</div>
+		</div><br></br><br></br>
+		
+		<div id="careerInfo">
+			<div id="objectives">
+				<h3><span th:text="Objectives">Objectives</span><br></br><br></br></h3>
+				<span th:text="${cv.getCareerInfo().getCareerObjective()}"></span><br></br>
+			</div>
+			
+			<div id="skills">
+				<h3><span th:text="Skills"></span><br></br><br></br></h3>
+				<span th:text="${cv.getCareerInfo().getSkills()}"></span><br></br>
+			</div>
+		</div><br></br><br></br>
+	
+		<h3><span th:text="Experience"></span><br></br><br></br></h3>
+		<div id="experienceList" th:each="experience:${cv.getExperienceInfoList()}">
+			<div id="experience" >
+				<span th:text="${experience.getExperienceFromDate()}"></span> - 
+				<span th:if="${experience.isCurrentJob()}" th:text="${experience.getExperienceToDate()}">PRESENT</span>
+				<span th:unless="${experience.isCurrentJob()}" th:text="PRESENT"></span><br></br>
+				<div th:if="${!experience.getCompanyWebsite().trim().equals('')}">
+					<a th:href="@{${experience.getCompanyWebsite()}}"><span th:text="${experience.getCompanyName()}"></span></a>
+				</div>
+				<div th:if="${experience.getCompanyWebsite().trim().equals('')}">
+					<span th:text="${experience.getCompanyName()}"></span><br></br>
+				</div><br></br>
+				-Designation: <span th:text="${experience.getDesignation()}"></span><br></br>
+				-Job Responsibility: <span th:text="${experience.getJobResponsibility()}"></span><br></br>
+				<br></br>
+			</div>
+		</div>
+		
+		<h3><span th:text="Education"></span><br></br><br></br></h3>
+		<div id="educationList" th:each="education:${cv.getEducationInfoList()}">
+			<div id="education">
+				Passing Year: <span th:text="${education.getPassingYear()}"></span><br></br>
+				<span th:text="${education.getInstitute()}"></span> -
+				<span th:text="${education.getDegree()}"></span> in 
+				<span th:text="${education.getMajorSubject()}"></span><br></br>
+				Major Subject:<span th:text="${education.getMajorSubject()}"></span><br></br>
+				GPA/CGPA: <span th:text="${education.getResult()}"></span><br></br>
+				<br></br>
+			</div>
+		</div>
+	
+		<h3><span th:text="Projects"></span><br></br></h3>
+		<div id="projectList" th:each="project:${cv.getProjectsList()}">
+			<div id="project">
+				<div th:if="${!project.getUrl().trim().equals('')}">
+					<a th:href="@{${project.getUrl()}}"><span th:text="${project.getTitle()}"></span></a>
+				</div>
+				<div th:if="${project.getUrl().trim().equals('')}">
+					<span th:text="${project.getTitle()}"></span>
+				</div>
+				<span th:text="${project.getDescription()}"></span><br></br>
+				Used Technologies: <span th:text="${project.getUsedTechnologiesAsString()}"></span>
+				
+			</div><br></br><br></br>
+		</div>
+		
+		<h3><span th:text="Training"></span><br></br></h3>
+		<div id="trainingList" th:each="training : ${cv.getTrainingInfoList()}">
+			<div id="training">
+				<span th:text="${training.getTrainingFromDate()}"></span> - 
+				<span th:text="${training.getTrainingToDate()}"></span><br></br>
+				<span th:text="${training.getTrainingTitle()}"></span><br></br>
+				<span th:text="${training.getInstitute()}"></span><br></br>
+				<span th:text="${training.getTrainingDescription()}"></span><br></br>
+				Training Hours: <span th:text="${training.getTrainingHours()}"></span><br></br>
+			</div><br></br><br></br>
+		</div>
+		
+		<h3><span th:text="References"></span></h3><br></br>
+		<div id="referenceList" th:each="reference:${cv.getReferenceList()}">
+			<div id="reference">
+				<span th:text="${reference.getReferenceName()}"></span><br></br>
+				<span th:text="${reference.getReferenceDescription()}"></span><br></br>
+			</div><br></br>
+		</div>
+	
+	</div>
+</body>
+</html>

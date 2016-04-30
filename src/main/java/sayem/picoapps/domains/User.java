@@ -19,6 +19,8 @@ public class User extends BaseEntity {
 	private String username;
 	@NotNull
 	private String role;
+	@NotNull
+	private String password;
 	
 	@OneToOne
 	private Cv cv;
@@ -61,6 +63,16 @@ public class User extends BaseEntity {
 
 	public void setCv(Cv cv) {
 		this.cv = cv;
+	}
+	
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
