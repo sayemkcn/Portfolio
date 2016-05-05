@@ -39,7 +39,7 @@ public class HelloController {
 		if (bResult.hasErrors()) {
 			System.out.println(bResult.toString());
 		}
-		user.setRole("ROLE_USER");
+		user.getRoles().add("ROLE_USER");
 		userRepository.saveAndFlush(user);
 		model.addAttribute("message","Successfully added user!");
 		return "/user/register";

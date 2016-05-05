@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import sayem.picoapps.domains.Cv;
+import sayem.picoapps.domains.User;
 import sayem.picoapps.repositories.CvRepository;
 
 @Service
@@ -51,5 +52,9 @@ public class CvService {
 			Map<String, Object> map = new HashMap<>();
 			map.put("cv", cv);
 			return map;
+		}
+		
+		public Cv loadCvByUser(User user){
+			return cvRepository.findByUser(user);
 		}
 }

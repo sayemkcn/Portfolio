@@ -1,7 +1,12 @@
 package sayem.picoapps.domains;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,11 +22,11 @@ public class User extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	@Size(min = 6, max = 20)
 	private String username;
-	@NotNull
-	private String role;
+	@ElementCollection(fetch=FetchType.EAGER)
+	private List<String> roles = new ArrayList<>();
 	@NotNull
 	private String password;
-	
+
 	@OneToOne
 	private Cv cv;
 
@@ -49,12 +54,12 @@ public class User extends BaseEntity {
 		this.username = username;
 	}
 
-	public String getRole() {
-		return role;
+	public List<String> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 
 	public Cv getCv() {
@@ -64,8 +69,6 @@ public class User extends BaseEntity {
 	public void setCv(Cv cv) {
 		this.cv = cv;
 	}
-	
-	
 
 	public String getPassword() {
 		return password;
@@ -77,10 +80,8 @@ public class User extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "User [name=" + name + ", email=" + email + ", username=" + username + ", role=" + role + ", cv=" + cv
-				+ "]";
+		return "User [name=" + name + ", email=" + email + ", username=" + username + ", roles=" + roles + ", password="
+				+ password + ", cv=" + cv + "]";
 	}
-
-	
 
 }

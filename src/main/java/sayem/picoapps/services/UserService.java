@@ -12,17 +12,21 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public boolean isUserRegistered(String username) {
-		if (userRepository.findUserByUsername(username) != null) {
+		if (userRepository.findByUsername(username) != null) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isPasswordValidForUser(String username, String password) {
-		User user = userRepository.findUserByUsername(username);
+		User user = userRepository.findByUsername(username);
 		if (user.getPassword().equals(password)) {
 			return true;
 		}
 		return false;
+	}
+	
+	public User findUserByUsername(String username){
+		return userRepository.findByUsername(username);
 	}
 }

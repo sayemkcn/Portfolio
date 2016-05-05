@@ -5,6 +5,8 @@
 <title>Login</title>
 </head>
 <body>
+	<span th:if="${param.error!=null}"  style="color: red;">Invalid username or password!</span>
+	<span th:if="${param.logout!=null}"  style="color: green;">See you again :)</span>
 	<span th:text="${message}" style="color: green;"></span><br></br>
 	<form th:action="@{/login}" method="post">
 		<input type="text" name="username" placeholder="Username"></input><br></br>
