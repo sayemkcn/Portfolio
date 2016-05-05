@@ -47,7 +47,7 @@ public class HelloController {
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String loginPage(){
-		return "/user/login";
+		return "user/login";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
