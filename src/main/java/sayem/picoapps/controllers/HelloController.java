@@ -32,7 +32,7 @@ public class HelloController {
 	
 	@RequestMapping(value="/register",method=RequestMethod.GET)
 	public String registrationPage(){
-		return "/user/register";
+		return "user/register";
 	}
 	@RequestMapping(value="/register",method=RequestMethod.POST)
 	public String registration(@ModelAttribute User user,BindingResult bResult,Model model){
@@ -42,7 +42,7 @@ public class HelloController {
 		user.getRoles().add("ROLE_USER");
 		userRepository.saveAndFlush(user);
 		model.addAttribute("message","Successfully added user!");
-		return "/user/register";
+		return "user/register";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
@@ -62,6 +62,6 @@ public class HelloController {
 		}else {
 			model.addAttribute("message","User Not Registered!");
 		}
-		return "/user/login";
+		return "user/login";
 	}
 }
