@@ -63,10 +63,10 @@ public class CvController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			User user = userService.findUserByUsername(auth.getName());
 			model.addAttribute("cv", cvService.loadCvByUser(user));
-		}else{
+		} else {
 			return "redirect:/logout";
 		}
-		
+
 		return "cv/view";
 	}
 
@@ -371,7 +371,12 @@ public class CvController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (!(auth instanceof AnonymousAuthenticationToken)) {
 				UserDetails userDetails = (UserDetails) auth.getPrincipal();
-				cv.setUser(userService.findUserByUsername(userDetails.getUsername()));
+				User user = userService.findUserByUsername(userDetails.getUsername());
+				Cv existingCv = cvService.loadCvByUser(user);
+				if (existingCv != null) {
+					cv.setId(existingCv.getId());
+				}
+				cv.setUser(user);
 				cvRepository.saveAndFlush(cv);
 			} else {
 				return "redirect:/login?error";
@@ -383,7 +388,7 @@ public class CvController {
 			httpSession.removeAttribute("tempCv");
 		}
 
-		return "redirect:/cv/create/p6?message=Successfully%20saved!";
+		return "redirect:/cv?message=Successfully%20saved!";
 	}
 
 	@RequestMapping(value = "/create/p6/remove/{hashCode}", method = RequestMethod.GET)

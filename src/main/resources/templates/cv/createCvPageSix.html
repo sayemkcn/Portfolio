@@ -29,7 +29,6 @@ th {
 <body>
 	
 	<h4>References</h4><hr></hr>
-		<span th:text="${param.message[0]}" th:unless="${param.message==null}"></span>
 		
 		<table th:if="${session.tempCv != null}" style="border: 1px;color: gray;text-align: center;" border="1">
 			<tr th:if="${!session.tempCv.getReferenceList().isEmpty()}">

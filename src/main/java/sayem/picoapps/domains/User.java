@@ -22,13 +22,11 @@ public class User extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	@Size(min = 6, max = 20)
 	private String username;
-	@ElementCollection(fetch=FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles = new ArrayList<>();
 	@NotNull
+	@Column(length = 300)
 	private String password;
-
-	@OneToOne
-	private Cv cv;
 
 	public String getName() {
 		return name;
@@ -62,14 +60,6 @@ public class User extends BaseEntity {
 		this.roles = roles;
 	}
 
-	public Cv getCv() {
-		return cv;
-	}
-
-	public void setCv(Cv cv) {
-		this.cv = cv;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -81,7 +71,7 @@ public class User extends BaseEntity {
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", email=" + email + ", username=" + username + ", roles=" + roles + ", password="
-				+ password + ", cv=" + cv + "]";
+				+ password + "]";
 	}
 
 }

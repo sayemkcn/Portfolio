@@ -2,6 +2,7 @@ package sayem.picoapps.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -23,15 +24,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/register","/login", "/logout", "/", "/home", "/logout").permitAll()
-				.antMatchers("/cv/**").hasAnyRole("ADMIN", "USER").anyRequest().authenticated().and().formLogin()
-				.loginPage("/login").loginProcessingUrl("/login").failureUrl("/login?error").permitAll();
+		http
+			.csrf().disable()
+			.authorizeRequests()
+					.antMatchers("/register","/login", "/logout", "/", "/home","/portfolio","/portfolio/*","/portfolio/image/**", "/logout").permitAll()
+					.antMatchers("/cv/**").hasAnyRole("ADMIN", "USER")
+					.antMatchers("/portfolio/**").hasRole("ADMIN")
+						.anyRequest().authenticated()
+						.and()
+			.formLogin()
+				.loginPage("/login")
+				.loginProcessingUrl("/login")
+				.failureUrl("/login?error")
+				.permitAll();
 
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// auth.inMemoryAuthentication().withUser("admin").password("pass").roles("ADMIN");
-		auth.userDetailsService(customUserDetailsService);
+		auth
+			.userDetailsService(customUserDetailsService)
+			.passwordEncoder(new ShaPasswordEncoder(256));
 	}
 }

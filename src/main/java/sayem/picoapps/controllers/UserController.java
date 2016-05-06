@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,14 +36,14 @@ public class UserController {
 		return "user/register";
 	}
 	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String registration(@ModelAttribute User user,BindingResult bResult,Model model){
+	public String registration(@ModelAttribute User user,BindingResult bResult){
 		if (bResult.hasErrors()) {
 			System.out.println(bResult.toString());
 		}
+		user.setPassword(new ShaPasswordEncoder(256).encodePassword(user.getPassword(), null));
 		user.getRoles().add("ROLE_USER");
 		userRepository.saveAndFlush(user);
-		model.addAttribute("message","Successfully added user!");
-		return "user/register";
+		return "redirect:/?message=Registration Successful!";
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)

@@ -5,6 +5,27 @@
 <title>Index</title>
 </head>
 <body>
-	Hello World!
+	
+	<div>
+		<nav>
+			<ul>
+				<li><a th:href="@{/}">Home</a></li>
+				<li><a th:href="@{/cv}">Cv Generator</a></li>
+				<li><a th:href="@{/portfolio}">Portfolio</a></li>
+				<li><a th:href="@{/contact}">Contact</a></li>
+				<li>
+					<div sec:authorize="isAuthenticated()">
+						Welcome <span sec:authentication="name"></span>! <a th:href="@{/logout}">Logout?</a>
+					</div>
+					<div sec:authorize="!isAuthenticated()">
+						<a th:href="@{/login}">Sign In</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	
+		<span th:text="${param.message[0]}" th:unless="${param.message==null}" style="color: green;"></span>
+		Hello World!
 </body>
 </html>

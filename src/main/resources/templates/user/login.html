@@ -5,6 +5,25 @@
 <title>Login</title>
 </head>
 <body>
+		<div>
+			<nav>
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/cv}">Cv Generator</a></li>
+					<li><a th:href="@{/portfolio}">Portfolio</a></li>
+					<li><a th:href="@{/contact}">Contact</a></li>
+					<li>
+						<div sec:authorize="isAuthenticated()">
+							Welcome <span sec:authentication="name"></span>! <a th:href="@{/logout}">Logout?</a>
+						</div>
+						<div sec:authorize="!isAuthenticated()">
+							<a th:href="@{/login}">Sign In</a>
+						</div>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
 	<span th:if="${param.error!=null}"  style="color: red;">Invalid username or password!</span>
 	<span th:if="${param.logout!=null}"  style="color: green;">See you again :)</span>
 	<span th:text="${message}" style="color: green;"></span><br></br>
@@ -15,6 +34,9 @@
 	</form>
 	<div th:if="${session.user!=null}">
 		<a th:href="@{/cv/}+${session.user?.getId()}">Cv</a>
+	</div>
+	<div>
+		Not registered yet? <a th:href="@{/register}">Register Now!</a>
 	</div>
 	
 </body>
