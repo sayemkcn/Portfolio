@@ -45,7 +45,7 @@ public class PortfolioController {
 		return portfolioRepository.getOne(id).getImage();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
 	public String showSingleProject(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("portfolio", portfolioRepository.getOne(id));
 		return "portfolio/showProject";
@@ -61,6 +61,10 @@ public class PortfolioController {
 			portfolio.setImage(multipartFile.getBytes());
 		} else {
 			model.addAttribute("message", "Invalid Image!");
+		}
+		// check if user provided a valid link
+		if (!(portfolio.getUrl().startsWith("http://") || portfolio.getUrl().startsWith("https://"))) {
+			portfolio.setUrl("http://" + portfolio.getUrl());
 		}
 		portfolioRepository.saveAndFlush(portfolio);
 		model.addAttribute("message", "Successfully saved project!");
@@ -84,6 +88,10 @@ public class PortfolioController {
 		if (portfolioService.isImageValid(multipartFile)) {
 			portfolio.setImage(multipartFile.getBytes());
 			portfolio.setId(id);
+			// check if user provided a valid link
+			if (!(portfolio.getUrl().startsWith("http://") || portfolio.getUrl().startsWith("https://"))) {
+				portfolio.setUrl("http://" + portfolio.getUrl());
+			}
 			portfolioRepository.saveAndFlush(portfolio);
 			return "redirect:/portfolio/" + id + "?message=Successfully%20Updated!";
 		} else {

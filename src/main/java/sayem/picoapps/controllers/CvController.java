@@ -181,6 +181,11 @@ public class CvController {
 		if (submitButton.contentEquals("Add New")) {
 			if (cv != null) { // if session is set then proceed to add page two
 								// data
+				// check if user provided a valid url
+				if (!(experienceInfo.getCompanyWebsite().startsWith("http://")
+						|| experienceInfo.getCompanyWebsite().startsWith("https://"))) {
+					experienceInfo.setCompanyWebsite("http://" + experienceInfo.getCompanyWebsite());
+				}
 				cv.getExperienceInfoList().add(experienceInfo);
 				httpSession.setAttribute("tempCv", cv);
 				return "cv/createCvPageThree";
@@ -237,6 +242,10 @@ public class CvController {
 		if (submitButton.contentEquals("Add New")) {
 			if (cv != null) { // if session is set then proceed to add page two
 								// data
+				// check if user provided a valid url
+				if (!(project.getUrl().startsWith("http://") || project.getUrl().startsWith("https://"))) {
+					project.setUrl("http://" + project.getUrl());
+				}
 				cv.getProjectsList().add(project);
 				httpSession.setAttribute("tempCv", cv);
 				return "cv/createCvPageFour";
