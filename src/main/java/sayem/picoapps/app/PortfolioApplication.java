@@ -10,13 +10,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "sayem.picoapps.controllers", "sayem.picoapps.services" },basePackageClasses=SecurityConfig.class)
+@ComponentScan(basePackages = { "sayem.picoapps.controllers",
+		"sayem.picoapps.services" }, basePackageClasses = SecurityConfig.class)
 @EntityScan(basePackages = { "sayem.picoapps.domains", "sayem.picoapps.domains.embedded" })
 @EnableJpaRepositories(basePackages = "sayem.picoapps.repositories")
 @EnableTransactionManagement
-public class PortfolioApplication extends SpringBootServletInitializer {
+public class PortfolioApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PortfolioApplication.class, args);
 	}
+
 }
